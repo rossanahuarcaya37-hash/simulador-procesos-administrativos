@@ -149,6 +149,8 @@ function mostrarPreguntaOficio() {
 
 <div id="feedback1"></div>
 
+`;
+
     }
 
     else if (preguntaActual === 1) {
