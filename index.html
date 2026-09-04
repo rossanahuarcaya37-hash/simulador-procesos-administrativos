@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Simulador Digital de Procesos Administrativos</title>
+
+    <link rel="stylesheet" href="estilos.css">
+
+</head>
+
+<body>
+
+    <!-- ==========================================
+         ENCABEZADO
+         ========================================== -->
+
+    <header>
+
+        <h1>
+            Simulador Digital de Procesos Administrativos
+        </h1>
+
+        <p>
+            Fortalecimiento del desempeño laboral de profesionales
+            de Asistencia Administrativa
+        </p>
+
+    </header>
+
+
+    <main>
+
+
+        <!-- ==========================================
+             PANTALLA INICIAL
+             ========================================== -->
+
+        <section id="inicio">
+
+            <h2>
+                🎓 Bienvenido al Simulador
+            </h2>
+
+            <p>
+                Este simulador permite desarrollar y evaluar
+                competencias relacionadas con los procesos
+                administrativos.
+            </p>
+
+
+            <h3>
+                👤 Datos del participante
+            </h3>
+
+
+            <label for="nombreParticipante">
+                Nombre completo:
+            </label>
+
+            <input
+                type="text"
+                id="nombreParticipante"
+                placeholder="Ingrese su nombre completo"
+            >
+
+
+            <label for="institucion">
+                Institución o empresa:
+            </label>
+
+            <input
+                type="text"
+                id="institucion"
+                placeholder="Ingrese la institución o empresa"
+            >
+
+
+            
+            <h3>
+                🎯 Objetivo
+            </h3>
+
+            <p>
+                Fortalecer el desempeño laboral mediante la práctica
+                simulada de procesos administrativos.
+            </p>
+
+
+            <button onclick="iniciarSimulacion()">
+
+                🚀 Iniciar simulación
+
+            </button>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             MÓDULO DOCUMENTOS
+             ========================================== -->
+
+        <section id="documentos" style="display: none;">
+
+            <h2>
+                📄 Módulo Documentos
+            </h2>
+
+            <p>
+                Seleccione el caso práctico que desea desarrollar:
+            </p>
+
+
+            <button onclick="casoOficio()">
+
+                Caso 1: Solicitud de información institucional
+
+            </button>
+
+
+            <button onclick="casoMemorando()">
+
+                Caso 2: Elaboración de Memorando
+
+            </button>
+
+
+            <button onclick="mostrarGestionDocumental()">
+
+                🗂️ Ir a Gestión Documental
+
+            </button>
+
+
+            <button onclick="volverInicio()">
+
+                ⬅ Volver al inicio
+
+            </button>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             MÓDULO GESTIÓN DOCUMENTAL
+             ========================================== -->
+
+        <section id="gestion" style="display: none;">
+
+            <h2>
+                🗂️ Módulo Gestión Documental
+            </h2>
+
+            <p>
+                Seleccione el caso práctico que desea desarrollar:
+            </p>
+
+
+            <button onclick="casoRecepcion()">
+
+                Caso 1: Recepción y Derivación de Documento
+
+            </button>
+
+
+            <button onclick="casoArchivo()">
+
+                Caso 2: Clasificación y Archivo de Documentos
+
+            </button>
+
+
+            <button onclick="mostrarDocumentos()">
+
+                📄 Volver a Documentos
+
+            </button>
+
+
+            <button onclick="volverInicio()">
+
+                ⬅ Volver al inicio
+
+            </button>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             ÁREA DE CASOS
+             ========================================== -->
+
+        <section id="caso" style="display: none;">
+
+            <h2 id="tituloCaso"></h2>
+
+            <div id="contenidoCaso"></div>
+
+
+            <button onclick="volverInicio()">
+
+                ⬅ Volver al inicio
+
+            </button>
+
+        </section>
+
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
