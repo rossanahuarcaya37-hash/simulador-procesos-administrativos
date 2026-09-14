@@ -1,1230 +1,1540 @@
-// ==========================================
-// VARIABLES DEL SIMULADOR
-// ==========================================
+// ============================================================
+// SIMULADOR DIGITAL DE PROCESOS PARA TRABAJADORES ADMINISTRATIVOS
+// IESTP "CATALINA BUENDÍA DE PECHO"
+// ============================================================
 
-let puntaje = 0;
+// ============================================================
+// VARIABLES DEL SIMULADOR
+// ============================================================
+
 let preguntaActual = 0;
 let nombreParticipante = "";
 let institucionParticipante = "";
 
-
-// ==========================================
-// INICIAR SIMULACIÓN
-// ==========================================
+// ============================================================
+// INICIO DEL SIMULADOR
+// ============================================================
 
 function iniciarSimulacion() {
 
-    nombreParticipante =
-        document.getElementById("nombreParticipante").value.trim();
-
-    institucionParticipante =
-        document.getElementById("institucion").value.trim();
-
-    
+    nombreParticipante = document.getElementById("nombreParticipante").value.trim();
+    institucionParticipante = document.getElementById("institucion").value.trim();
 
     if (nombreParticipante === "") {
-
-        alert("⚠️ Por favor, ingrese el nombre del participante.");
-
+        alert("Por favor, ingresa tu nombre.");
         return;
     }
-
 
     if (institucionParticipante === "") {
-
-        alert("⚠️ Por favor, ingrese la institución o empresa.");
-
+        alert("Por favor, ingresa la institución a la que perteneces.");
         return;
     }
 
+    document.getElementById("inicio").style.display = "none";
+    document.getElementById("documentos").style.display = "block";
 
-    alert(
-        "✅ Datos registrados correctamente. Bienvenido/a " +
-        nombreParticipante
-    );
-
-
-    mostrarDocumentos();
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
-// ==========================================
-// NAVEGACIÓN
-// ==========================================
+
+// ============================================================
+// MOSTRAR MÓDULO 1
+// ============================================================
 
 function mostrarDocumentos() {
 
     document.getElementById("inicio").style.display = "none";
-    document.getElementById("documentos").style.display = "block";
-    document.getElementById("gestion").style.display = "none";
     document.getElementById("caso").style.display = "none";
+    document.getElementById("documentos").style.display = "block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
+
+// ============================================================
+// GESTIÓN DOCUMENTAL DESHABILITADA
+// ============================================================
 
 function mostrarGestionDocumental() {
 
-    document.getElementById("inicio").style.display = "none";
-    document.getElementById("documentos").style.display = "none";
-    document.getElementById("gestion").style.display = "block";
-    document.getElementById("caso").style.display = "none";
+    alert(
+        "Este módulo se encuentra en desarrollo.\n\n" +
+        "Próximamente estará disponible."
+    );
 }
 
+
+// ============================================================
+// VOLVER AL INICIO
+// ============================================================
 
 function volverInicio() {
 
-    document.getElementById("inicio").style.display = "block";
     document.getElementById("documentos").style.display = "none";
-    document.getElementById("gestion").style.display = "none";
     document.getElementById("caso").style.display = "none";
+    document.getElementById("inicio").style.display = "block";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 
-// ==========================================
+// ============================================================
+// FUNCIONES AUXILIARES DE DISEÑO
+// ============================================================
+
+function actualizarProgreso(numero, total) {
+
+    const porcentaje = Math.round((numero / total) * 100);
+
+    return `
+        <div class="progreso-contenedor">
+
+            <div class="progreso-superior">
+                <span>
+                    Decisión <strong>${numero}</strong> de <strong>${total}</strong>
+                </span>
+
+                <span>
+                    ${porcentaje}%
+                </span>
+            </div>
+
+            <div class="barra-progreso">
+                <div
+                    class="barra-progreso-avance"
+                    style="width: ${porcentaje}%;">
+                </div>
+            </div>
+
+        </div>
+    `;
+}
+
+
+function mostrarBotonesProfesionales(opciones, funcionRespuesta) {
+
+    let html = `
+        <div class="opciones-decision">
+    `;
+
+    opciones.forEach((opcion, index) => {
+
+        const letra = String.fromCharCode(65 + index);
+
+        html += `
+            <button
+                class="boton-opcion"
+                onclick="${funcionRespuesta}(${index})">
+
+                <span class="letra-opcion">${letra}</span>
+
+                <span class="texto-opcion">
+                    ${opcion}
+                </span>
+
+                <span class="flecha-opcion">›</span>
+
+            </button>
+        `;
+    });
+
+    html += `</div>`;
+
+    return html;
+}
+
+
+// ============================================================
 // CASO 1: ELABORACIÓN DE OFICIO
-// ==========================================
+// ============================================================
 
 function casoOficio() {
 
-    puntaje = 0;
-    preguntaActual = 0;
+    preguntaActual = 1;
 
     document.getElementById("documentos").style.display = "none";
     document.getElementById("caso").style.display = "block";
 
-    document.getElementById("tituloCaso").textContent =
-        "Caso 1: Solicitud de información institucional";
+    document.getElementById("tituloCaso").innerHTML = `
+        📄 Caso 1: Solicitud de información institucional
+    `;
 
     mostrarPreguntaOficio();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 
-// ==========================================
-// PREGUNTAS DEL CASO
-// ==========================================
+// ============================================================
+// DECISIONES DEL CASO DE OFICIO
+// ============================================================
 
 function mostrarPreguntaOficio() {
 
-    let contenido = document.getElementById("contenidoCaso");
+    const contenido = document.getElementById("contenidoCaso");
 
-    if (preguntaActual === 0) {
+    // --------------------------------------------------------
+    // DECISIÓN 1
+    // --------------------------------------------------------
 
-        contenido.innerHTML = `
-
-           
-<h3>📋 Situación laboral</h3>
-
-<p>
-    Usted trabaja como asistente administrativo en una institución.
-    Su jefe inmediato le solicita gestionar una comunicación formal
-    dirigida a otra institución, con la finalidad de solicitar
-    información necesaria para continuar con un trámite administrativo.
-</p>
-
-<p>
-    Antes de elaborar el documento, usted debe analizar la situación
-    y seleccionar el medio de comunicación que corresponda.
-</p>
-
-            <h3>Decisión 1</h3>
-
-<p>
-    La solicitud debe enviarse formalmente a una institución externa.
-    ¿Qué documento sería más adecuado para realizar esta comunicación?
-</p>
-
-<button onclick="respuesta1Oficio(1)">
-    A. Oficio
-</button>
-
-<button onclick="respuesta1Oficio(2)">
-    B. Memorando
-</button>
-
-<button onclick="respuesta1Oficio(3)">
-    C. Informe
-</button>
-
-<button onclick="respuesta1Oficio(4)">
-    D. Acta
-</button>
-
-<div id="feedback1"></div>
-
-`;
-
-    }
-
-    else if (preguntaActual === 1) {
+    if (preguntaActual === 1) {
 
         contenido.innerHTML = `
 
-            <h3>Decisión 2</h3>
+            ${actualizarProgreso(1, 6)}
 
-            <p>
-                Ya identificó que debe elaborar un oficio.
-                Ahora debe determinar a quién debe dirigirse.
-            </p>
+            <div class="caso-introduccion">
 
-            <p>
-                ¿Cuál es la opción correcta?
-            </p>
+                <span class="etiqueta-caso">
+                    SITUACIÓN 01
+                </span>
 
-            <button onclick="respuesta2Oficio(false)">
-                A. A cualquier trabajador de la institución
-            </button>
+                <h3>
+                    Identificación del documento
+                </h3>
 
-            <button onclick="respuesta2Oficio(true)">
-                B. A la autoridad o responsable correspondiente de la institución destinataria
-            </button>
+                <p>
+                    El IESTP "Catalina Buendía de Pecho" necesita
+                    solicitar información oficial a otra institución.
+                </p>
 
-            <button onclick="respuesta2Oficio(false)">
-                C. Al personal de limpieza
-            </button>
+                <p>
+                    Como trabajador administrativo, debes seleccionar
+                    el documento adecuado para realizar esta comunicación.
+                </p>
 
-            <p>
-                <strong>Puntaje:</strong> ${puntaje}
-            </p>
+            </div>
+
+            <div class="pregunta-box">
+
+                <h3>
+                    ¿Qué documento administrativo corresponde utilizar?
+                </h3>
+
+                ${mostrarBotonesProfesionales(
+                    [
+                        "Oficio",
+                        "Memorando",
+                        "Informe",
+                        "Solicitud"
+                    ],
+                    "respuesta1Oficio"
+                )}
+
+                <div id="retroalimentacion"></div>
+
+            </div>
         `;
-
     }
+
+
+    // --------------------------------------------------------
+    // DECISIÓN 2
+    // --------------------------------------------------------
 
     else if (preguntaActual === 2) {
 
         contenido.innerHTML = `
 
-            <h3>Decisión 3</h3>
+            ${actualizarProgreso(2, 6)}
 
-            <p>
-                Antes de enviar el oficio, debe revisar que el documento
-                contenga los elementos necesarios.
-            </p>
+            <div class="pregunta-box">
 
-            <p>
-                ¿Qué opción presenta una estructura adecuada?
-            </p>
+                <span class="etiqueta-caso">
+                    DECISIÓN 02
+                </span>
 
-            <button onclick="respuesta3Oficio(false)">
-                A. Solo título y texto
+                <h3>
+                    Selección del destinatario
+                </h3>
+
+                <p>
+                    Una vez identificado el Oficio, debes determinar
+                    quién debe recibir el documento.
+                </p>
+
+                ${mostrarBotonesProfesionales(
+                    [
+                        "Cualquier trabajador de la institución destinataria.",
+    "Únicamente el personal de vigilancia.",
+    "La autoridad o responsable competente de la institución destinataria.",
+    "Cualquier estudiante de la institución."
+                    ],
+                    "respuesta2Oficio"
+                )}
+
+                <div id="retroalimentacion"></div>
+
+            </div>
+        `;
+    }
+
+
+    // --------------------------------------------------------
+    // DECISIÓN 3
+    // --------------------------------------------------------
+
+    else if (preguntaActual === 3) {
+
+        contenido.innerHTML = `
+
+            ${actualizarProgreso(3, 6)}
+
+            <div class="pregunta-box">
+
+                <span class="etiqueta-caso">
+                    DECISIÓN 03
+                </span>
+
+                <h3>
+                    Estructura del Oficio
+                </h3>
+
+                <p>
+                    Debes organizar correctamente los principales
+                    elementos que conforman un Oficio.
+                </p>
+
+                ${mostrarBotonesProfesionales(
+                    [
+                        "Título, introducción, desarrollo y bibliografía.",
+    "Lugar y fecha, destinatario, asunto, texto y firma.",
+    "Solo asunto, texto y firma.",
+    "Membrete, fotografías y anexos únicamente."
+                    ],
+                    "respuesta3Oficio"
+                )}
+
+                <div id="retroalimentacion"></div>
+
+            </div>
+        `;
+    }
+
+
+    // --------------------------------------------------------
+    // DECISIÓN 4
+    // --------------------------------------------------------
+
+    else if (preguntaActual === 4) {
+
+        contenido.innerHTML = `
+
+            ${actualizarProgreso(4, 6)}
+
+            <div class="pregunta-box">
+
+                <span class="etiqueta-caso">
+                    DECISIÓN 04
+                </span>
+
+                <h3>
+                    Datos del encabezado
+                </h3>
+
+                <p>
+                    Antes de redactar el contenido del documento,
+                    debes identificar qué datos corresponden al
+                    encabezado y presentación administrativa.
+                </p>
+
+                <p>
+                    <strong>
+                        Selecciona la alternativa que contiene
+                        correctamente estos elementos.
+                    </strong>
+                </p>
+
+                ${mostrarBotonesProfesionales(
+                    [
+                        "Fotografías, conclusiones, recomendaciones y bibliografía.",
+    "Solo nombre de la institución, firma y sello.",
+    "Título, introducción, desarrollo y conclusión.",
+    "Membrete, nombre del año, lugar y fecha, código, destinatario, asunto y referencia."
+                    ],
+                    "respuesta4Oficio"
+                )}
+
+                <div id="retroalimentacion"></div>
+
+            </div>
+        `;
+    }
+
+
+    // --------------------------------------------------------
+    // DECISIÓN 5
+    // --------------------------------------------------------
+
+    else if (preguntaActual === 5) {
+
+        contenido.innerHTML = `
+
+            ${actualizarProgreso(5, 6)}
+
+            <div class="pregunta-box">
+
+                <span class="etiqueta-caso">
+                    DECISIÓN 05
+                </span>
+
+                <h3>
+                    Redacción del texto
+                </h3>
+
+                <p>
+                    El contenido del Oficio debe expresar el motivo
+                    de la comunicación de manera clara, ordenada
+                    y formal.
+                </p>
+
+                <p>
+                    ¿Cuál de las siguientes alternativas representa
+                    una estructura adecuada para el texto?
+                </p>
+
+                ${mostrarBotonesProfesionales(
+                    [
+                        "Dos o tres párrafos que incluyan una fórmula de apertura, la exposición del asunto y un párrafo de cierre.",
+    "Un solo párrafo con información mezclada y sin orden.",
+    "Una lista de palabras clave sin explicación.",
+    "Solo una frase breve acompañada de fotografías."
+                    ],
+                    "respuesta5Oficio"
+                )}
+
+                <div id="retroalimentacion"></div>
+
+            </div>
+        `;
+    }
+
+
+    // --------------------------------------------------------
+    // DECISIÓN 6
+    // --------------------------------------------------------
+
+    else if (preguntaActual === 6) {
+
+        contenido.innerHTML = `
+
+            ${actualizarProgreso(6, 6)}
+
+            <div class="pregunta-box">
+
+                <span class="etiqueta-caso">
+                    DECISIÓN 06
+                </span>
+
+                <h3>
+                    Parte final del documento
+                </h3>
+
+                <p>
+                    Finalmente, debes verificar los elementos que
+                    corresponden a la parte final del documento
+                    administrativo.
+                </p>
+
+                <p>
+                    Selecciona la alternativa correcta.
+                </p>
+
+                ${mostrarBotonesProfesionales(
+                    [
+                        "Introducción, desarrollo, conclusión y bibliografía.",
+    "Título, fotografías y gráficos.",
+    "Antefirma, firma, sello, posfirma, anexo, con copia y pie de página.",
+    "Solo firma y nombre del trabajador."
+                    ],
+                    "respuesta6Oficio"
+                )}
+
+                <div id="retroalimentacion"></div>
+
+            </div>
+        `;
+    }
+}
+
+
+// ============================================================
+// FUNCIÓN PARA MOSTRAR RETROALIMENTACIÓN
+// ============================================================
+
+function mostrarRetroalimentacion(esCorrecta, mensaje, continuar = true) {
+
+    const retro = document.getElementById("retroalimentacion");
+
+    if (!retro) return;
+
+    if (esCorrecta) {
+
+        retro.innerHTML = `
+
+            <div class="retroalimentacion correcta">
+
+                <div class="icono-retro">
+                    ✓
+                </div>
+
+                <div>
+                    <strong>¡Decisión correcta!</strong>
+
+                    <p>
+                        ${mensaje}
+                    </p>
+                </div>
+
+            </div>
+
+            ${
+                continuar
+                ?
+                `
+                    <button
+                        class="boton-continuar"
+                        onclick="siguienteDecision()">
+
+                        Continuar
+                        <span>→</span>
+
+                    </button>
+                `
+                :
+                ""
+            }
+        `;
+
+    } else {
+
+        retro.innerHTML = `
+
+            <div class="retroalimentacion incorrecta">
+
+                <div class="icono-retro">
+                    !
+                </div>
+
+                <div>
+                    <strong>Revisa tu decisión</strong>
+
+                    <p>
+                        ${mensaje}
+                    </p>
+                </div>
+
+            </div>
+
+            <button
+                class="boton-reintentar"
+                onclick="mostrarPreguntaOficio()">
+
+                ↻ Intentar nuevamente
+
             </button>
+        `;
+    }
+}
 
-            <button onclick="respuesta3Oficio(true)">
-                B. Lugar y fecha, destinatario, asunto, cuerpo y firma
+
+// ============================================================
+// DECISIÓN 1 - RESPUESTA
+// ============================================================
+
+function respuesta1Oficio(opcion) {
+
+    if (opcion === 0) {
+
+        mostrarRetroalimentacion(
+            true,
+            "El Oficio es el documento utilizado para realizar comunicaciones formales entre instituciones o autoridades."
+        );
+
+    } else {
+
+        mostrarRetroalimentacion(
+            false,
+            "Para solicitar información oficial a otra institución corresponde utilizar un Oficio."
+        );
+    }
+}
+
+
+// ============================================================
+// DECISIÓN 2 - RESPUESTA
+// ============================================================
+
+function respuesta2Oficio(opcion) {
+
+    if (opcion === 2) {
+
+        mostrarRetroalimentacion(
+            true,
+            "¡Excelente! Has identificado correctamente que el documento debe dirigirse a la autoridad o responsable competente de la institución destinataria."
+        );
+
+    } else {
+
+        mostrarRetroalimentacion(
+            false,
+            "Revisa tu decisión. El destinatario debe ser la autoridad o responsable competente que corresponda atender la solicitud."
+        );
+
+    }
+}
+
+
+// ============================================================
+// DECISIÓN 3 - RESPUESTA
+// ============================================================
+
+function respuesta3Oficio(opcion) {
+
+    if (opcion === 1) {
+
+        mostrarRetroalimentacion(
+            true,
+            "La estructura considera lugar y fecha, destinatario, asunto, texto y firma. En esta simulación utilizamos el término 'texto' para referirnos al contenido del documento."
+        );
+
+    } else {
+
+        mostrarRetroalimentacion(
+            false,
+            "Revisa la estructura básica del Oficio. Debe considerar lugar y fecha, destinatario, asunto, texto y firma."
+        );
+    }
+}
+
+
+// ============================================================
+// DECISIÓN 4 - RESPUESTA
+// ============================================================
+
+function respuesta4Oficio(opcion) {
+    if (opcion === 3) {
+
+        const retro = document.getElementById("retroalimentacion");
+
+        retro.innerHTML = `
+            <div class="retroalimentacion correcta">
+                <div class="icono-retro">✓</div>
+                <div>
+                    <strong>¡Decisión correcta!</strong>
+                    <p>
+                        ¡Muy bien! Has identificado correctamente los principales
+                        datos de presentación y encabezado del documento.
+                    </p>
+                </div>
+            </div>
+
+            <div class="vista-documento">
+
+                <div class="documento-a4">
+
+                    <div class="zona-superior-documento">
+
+                        <!-- MEMBRETE -->
+                        <div class="membrete-documento">
+
+                            <img 
+                                src="logo-cbp.jpg" 
+                                alt="Logo institucional"
+                            >
+
+                            <p class="nombre-institucion-documento">
+                                INSTITUTO DE EDUCACIÓN SUPERIOR TECNOLÓGICO PÚBLICO
+                            </p>
+
+                            <p class="nombre-institucion-documento">
+                                "CATALINA BUENDÍA DE PECHO"
+                            </p>
+
+                            <p class="ubicacion-documento">
+                                Ica – Perú
+                            </p>
+
+                        </div>
+
+
+                        <!-- NOMBRE DEL AÑO -->
+                        <div class="nombre-anio-documento">
+                            "AÑO DE LA ESPERANZA Y EL FORTALECIMIENTO
+                            DE LA EDUCACIÓN"
+                        </div>
+
+
+                        <!-- LUGAR Y FECHA -->
+                        <div class="fecha-documento">
+                            Ica, 06 de septiembre de 2026
+                        </div>
+
+
+                        <!-- CÓDIGO -->
+                        <div class="codigo-documento">
+                            OFICIO N.º 001-2026-IESTP-CBP-DG
+                        </div>
+
+
+                        <!-- DESTINATARIO -->
+                        <div class="destinatario-documento">
+
+                            <div class="fila-destinatario">
+                                <span class="etiqueta-destinatario">
+                                    SEÑOR:
+                                </span>
+
+                                <span class="nombre-destinatario">
+                                    JUAN PÉREZ GARCÍA
+                                </span>
+                            </div>
+
+                            <div class="fila-destinatario">
+                                <span></span>
+                                <span>
+                                    Director del IESP "Juan XXIII"
+                                
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <!-- ASUNTO -->
+                        <div class="asunto-documento">
+
+                            <span class="etiqueta-asunto">
+                                ASUNTO:
+                            </span>
+
+                            <span>
+                                Solicitud de información institucional
+                            </span>
+
+                        </div>
+
+
+                        <!-- REFERENCIA -->
+                        <div class="referencia-documento">
+
+    <span class="etiqueta-referencia">
+        REFERENCIA:
+    </span>
+
+    <span>
+        ______________________________
+    </span>
+
+</div>
+
+</div>
+
+<!-- CONTINUAR -->
+<button 
+    class="boton-continuar continuar-documento"
+    onclick="siguienteDecision()"
+>
+    Continuar <span>→</span>
+</button>
+        `;
+
+    } else {
+
+        mostrarRetroalimentacion(
+            false,
+            "Revisa los datos que identifican y organizan formalmente el documento antes de desarrollar su contenido."
+        );
+    }
+}
+
+
+// ============================================================
+// DECISIÓN 5 - RESPUESTA
+// ============================================================
+
+function respuesta5Oficio(opcion) {
+    if (opcion === 0) {
+
+        const retro = document.getElementById("retroalimentacion");
+
+        retro.innerHTML = `
+            <div class="retroalimentacion correcta">
+                <div class="icono-retro">✓</div>
+                <div>
+                    <strong>¡Decisión correcta!</strong>
+                    <p>
+                        ¡Excelente! El texto presenta una fórmula de apertura,
+                        la exposición del asunto y un párrafo de cierre.
+                    </p>
+                </div>
+            </div>
+
+            <div class="vista-documento">
+
+                <div class="documento-a4 documento-con-texto">
+
+                    <!-- MEMBRETE -->
+                    <div class="membrete-documento">
+
+                        <img src="logo-cbp.jpg" alt="Logo institucional">
+
+                        <p class="nombre-institucion-documento">
+                            INSTITUTO DE EDUCACIÓN SUPERIOR TECNOLÓGICO PÚBLICO
+                        </p>
+
+                        <p class="nombre-institucion-documento">
+                            "CATALINA BUENDÍA DE PECHO"
+                        </p>
+
+                        <p class="ubicacion-documento">
+                            Ica – Perú
+                        </p>
+
+                    </div>
+
+                    <!-- NOMBRE DEL AÑO -->
+                    <div class="nombre-anio-documento">
+                        "AÑO DE LA ESPERANZA Y EL FORTALECIMIENTO
+                        DE LA EDUCACIÓN"
+                    </div>
+
+                    <!-- LUGAR Y FECHA -->
+                    <div class="fecha-documento">
+                        Ica, 06 de septiembre de 2026
+                    </div>
+
+                    <!-- CÓDIGO -->
+                    <div class="codigo-documento">
+                        OFICIO Nº 001-2026-IESTP-CBP-DG
+                    </div>
+
+                    <!-- DESTINATARIO -->
+                    
+<div class="destinatario-documento">
+
+    <div class="fila-destinatario">
+        <span class="etiqueta-destinatario">
+            SEÑOR:
+        </span>
+
+        <span class="nombre-destinatario">
+            JUAN PÉREZ GARCÍA
+        </span>
+    </div>
+
+    <div class="fila-destinatario">
+        <span></span>
+
+        <span>
+            Director del IESP "Juan XXIII"
+        </span>
+    </div>
+
+</div>
+
+                    <!-- ASUNTO -->
+                    <div class="asunto-documento">
+
+                        <span class="etiqueta-asunto">
+                            ASUNTO:
+                        </span>
+
+                        <span>
+                            Solicitud de información institucional
+                        </span>
+
+                    </div>
+
+                    <!-- REFERENCIA -->
+                    <div class="referencia-documento">
+
+                        <span class="etiqueta-referencia">
+                            REFERENCIA:
+                        </span>
+
+                        <span>
+                            ______________________________
+                        </span>
+
+                    </div>
+
+                    
+                    <!-- PÁRRAFOS -->
+                    
+<!-- PÁRRAFOS -->
+<div class="texto-documento">
+
+    <p>
+        Tengo el agrado de dirigirme a usted para saludarlo cordialmente y felicitar la importante gestión que viene desarrollando al frente del IESP "Juan XXIII", institución que contribuye de manera significativa a la formación y desarrollo profesional de sus estudiantes.
+    </p>
+
+    <p>
+        Asimismo, solicito a su despacho información institucional relacionada con las estrategias y experiencias desarrolladas en la gestión académica y administrativa, con la finalidad de conocer las buenas prácticas que puedan contribuir al fortalecimiento de los procesos institucionales del IESTP "Catalina Buendía de Pecho".
+    </p>
+
+    <p>
+        Es propicia la oportunidad para reiterarle mi
+        consideración y estima personal.
+    </p>
+
+</div>
+
+            <button 
+                class="boton-continuar continuar-documento"
+                onclick="siguienteDecision()"
+            >
+                Continuar <span>→</span>
             </button>
-
-            <button onclick="respuesta3Oficio(false)">
-                C. Solo nombre y firma
-            </button>
-
-            <p>
-                <strong>Puntaje:</strong> ${puntaje}
-            </p>
-        `;
-
-    }
-
-    else {
-
-        finalizarOficio();
-    }
-}
-
-
-// ==========================================
-// RESPUESTA 1
-// ==========================================
-
-function respuesta1Oficio(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert("✅ Correcto. El oficio se utiliza para comunicaciones formales, especialmente entre instituciones o autoridades.");
-
-    } else {
-
-        alert("❌ Incorrecto. En esta situación corresponde elaborar un oficio.");
-    }
-
-    preguntaActual = 1;
-
-    mostrarPreguntaOficio();
-}
-
-
-// ==========================================
-// RESPUESTA 2
-// ==========================================
-
-function respuesta2Oficio(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert("✅ Correcto. Debe identificarse correctamente a la autoridad o responsable destinatario.");
-
-    } else {
-
-        alert("❌ Incorrecto. Es necesario identificar al destinatario que corresponde.");
-
-    }
-
-    preguntaActual = 2;
-
-    mostrarPreguntaOficio();
-}
-
-
-// ==========================================
-// RESPUESTA 3
-// ==========================================
-
-function respuesta3Oficio(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert("✅ Correcto. Estos elementos permiten estructurar adecuadamente el documento.");
-
-    } else {
-
-        alert("❌ Incorrecto. Debe revisar la estructura del oficio antes de enviarlo.");
-
-    }
-
-    preguntaActual = 3;
-
-    mostrarPreguntaOficio();
-}
-
-
-// ==========================================
-// RESULTADO FINAL
-// ==========================================
-
-function finalizarOficio() {
-
-    let mensaje = "";
-    let nivel = "";
-
-    if (puntaje === 30) {
-
-        nivel = "Excelente desempeño";
-
-        mensaje = `
-            <p>
-                Ha completado correctamente todas las decisiones
-                del caso de elaboración de oficio.
-            </p>
-        `;
-
-    } else if (puntaje >= 20) {
-
-        nivel = "Buen desempeño";
-
-        mensaje = `
-            <p>
-                Ha demostrado un buen manejo del procedimiento,
-                pero todavía puede mejorar algunos aspectos.
-            </p>
         `;
 
     } else {
 
-        nivel = "Necesita reforzar sus conocimientos";
-
-        mensaje = `
-            <p>
-                Se recomienda revisar nuevamente el procedimiento
-                para la elaboración de documentos administrativos.
-            </p>
-        `;
+        mostrarRetroalimentacion(
+            false,
+            "El texto administrativo debe mantener una secuencia lógica: apertura, exposición del asunto y cierre."
+        );
     }
+}
 
-    document.getElementById("contenidoCaso").innerHTML = `
 
-        <h2>🏁 Simulación finalizada</h2>
+// ============================================================
+// DECISIÓN 6 - RESPUESTA
+// ============================================================
 
-        <hr>
+function respuesta6Oficio(opcion) {
+    if (opcion === 2) {
+        const retro = document.getElementById("retroalimentacion");
 
-        <h3>👤 Participante</h3>
+        retro.innerHTML = `
+            <div class="retroalimentacion correcta">
+                <div class="icono-retro">✓</div>
+                <div>
+                    <strong>¡Decisión correcta!</strong>
+                    <p>
+                        ¡Excelente! Has identificado correctamente los elementos
+                        que corresponden a la parte final del documento administrativo.
+                    </p>
+                </div>
+            </div>
+
+            <div class="vista-documento">
+
+                <div class="documento-a4 documento-con-texto documento-final">
+
+                    <!-- MEMBRETE -->
+                    <div class="membrete-documento">
+                        <img src="logo-cbp.jpg" alt="Logo institucional">
+
+                        <p class="nombre-institucion-documento">
+                            INSTITUTO DE EDUCACIÓN SUPERIOR TECNOLÓGICO PÚBLICO
+                        </p>
+
+                        <p class="nombre-institucion-documento">
+                            "CATALINA BUENDÍA DE PECHO"
+                        </p>
+
+                        <p class="ubicacion-documento">
+                            Ica – Perú
+                        </p>
+                    </div>
+
+                    <!-- NOMBRE DEL AÑO -->
+                    <div class="nombre-anio-documento">
+                        "AÑO DE LA ESPERANZA Y EL FORTALECIMIENTO
+                        DE LA EDUCACIÓN"
+                    </div>
+
+                    <!-- LUGAR Y FECHA -->
+                    <div class="fecha-documento">
+                        Ica, 06 de septiembre de 2026
+                    </div>
+
+                    <!-- CÓDIGO -->
+                    <div class="codigo-documento">
+                        OFICIO N.º 001-2026-IESTP-CBP-DG
+                    </div>
+
+                    <!-- DESTINATARIO -->
+                    <div class="destinatario-documento">
+
+                        <div class="fila-destinatario">
+                            <span class="etiqueta-destinatario">
+                                SEÑOR:
+                            </span>
+
+                            <span class="nombre-destinatario">
+                                JUAN PÉREZ GARCÍA
+                            </span>
+                        </div>
+
+                        <div class="fila-destinatario">
+                            <span></span>
+
+                            <span>
+                                Director del IESP "Juan XXIII"
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <!-- ASUNTO -->
+                    <div class="asunto-documento">
+                        <span class="etiqueta-asunto">
+                            ASUNTO:
+                        </span>
+
+                        <span>
+                            Solicitud de información institucional
+                        </span>
+                    </div>
+
+                    <!-- REFERENCIA -->
+                    <div class="referencia-documento">
+                        <span class="etiqueta-referencia">
+                            REFERENCIA:
+                        </span>
+
+                        <span>
+                            ______________________________
+                        </span>
+                    </div>
+
+                    <!-- TEXTO DEL OFICIO -->
+                    <div class="texto-documento">
+
+                        <p>
+                            Tengo el agrado de dirigirme a usted para saludarlo
+                            cordialmente y felicitar la importante gestión que
+                            viene desarrollando al frente del IESP "Juan XXIII",
+                            institución que contribuye de manera significativa
+                            a la formación y desarrollo profesional de sus
+                            estudiantes.
+                        </p>
+
+                        <p>
+                            Asimismo, solicito a su despacho información
+                            institucional relacionada con las estrategias y
+                            experiencias desarrolladas en la gestión académica
+                            y administrativa, con la finalidad de conocer las
+                            buenas prácticas que puedan contribuir al
+                            fortalecimiento de los procesos institucionales
+                            del IESTP "Catalina Buendía de Pecho".
+                        </p>
+
+                        <p>
+                            Es propicia la oportunidad para reiterarle mi
+                            consideración y estima personal.
+                        </p>
+
+                    </div>
+
+                    <!-- ELEMENTOS DE TÉRMINO -->
+
+<div class="termino-documento">
+
+    <!-- ATENTAMENTE -->
+    <p class="atentamente-documento">
+        Atentamente,
+    </p>
+
+
+    <!-- ESPACIO ADICIONAL: 3 ESPACIOS MÁS -->
+    <div class="espacio-firma"></div>
+
+
+    <!-- CÍRCULO Y DATOS DE QUIEN FIRMA -->
+    <div class="firma-final-documento">
+
+        <!-- UN SOLO CÍRCULO -->
+        <div class="circulo-sello"></div>
+
+        <!-- NOMBRE Y CARGO -->
+        <div class="datos-firma-final">
+
+            <p class="nombre-firma">
+                Lic. JUAN PÉREZ GARCÍA
+            </p>
+
+            <p class="cargo-firma">
+                Director General
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- ANEXO, COPIA Y PIE DE PÁGINA -->
+    <div class="datos-finales-documento">
 
         <p>
-            <strong>Nombre:</strong> ${nombreParticipante}
+    <strong class="anexo-subrayado">ANEXO</strong>: Copia simple de DNI
+</p>
+
+        <p>
+            <strong>c.c.:</strong> Dirección Regional
         </p>
 
         <p>
-            <strong>Institución / Empresa:</strong> ${institucionParticipante}
+            JPG/RHC
         </p>
 
-        <hr>
+    </div>
 
-        <h3>📄 Caso: Elaboración de Oficio</h3>
+</div>
 
-        <h3>📊 Resultado</h3>
+                </div>
 
-        <p>
-            <strong>Nivel de desempeño:</strong>
-            ${nivel}
-        </p>
+                <!-- BOTÓN FINAL -->
+                <button
+                    class="boton-continuar continuar-documento"
+                    onclick="mostrarFelicitacionOficio()"
+                >
+                    Finalizar caso <span>✓</span>
+                </button>
 
-        ${mensaje}
+            </div>
+        `;
 
-        <h2>
-            ⭐ Puntaje obtenido: ${puntaje} / 30
-        </h2>
+    } else {
 
-        <hr>
+        mostrarRetroalimentacion(
+            false,
+            "Revisa los elementos que corresponden a la parte final del documento administrativo."
+        );
+    }
+}
 
-        <button onclick="casoOficio()">
-            🔄 Intentar nuevamente
-        </button>
 
-        <button onclick="mostrarDocumentos()">
-            📄 Volver al módulo Documentos
-        </button>
+// ============================================================
+// SIGUIENTE DECISIÓN
+// ============================================================
 
+function siguienteDecision() {
+
+    if (preguntaActual < 6) {
+
+        preguntaActual++;
+
+        mostrarPreguntaOficio();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } else {
+
+        mostrarFelicitacionOficio();
+    }
+}
+
+
+// ============================================================
+// PANTALLA FINAL - FELICITACIONES
+// ============================================================
+
+function mostrarFelicitacionOficio() {
+
+    const contenido = document.getElementById("contenidoCaso");
+
+    contenido.innerHTML = `
+
+        <div class="pantalla-felicitacion">
+
+            <div class="estrellas">
+
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+
+            </div>
+
+            <div class="icono-felicitacion">
+                ✓
+            </div>
+
+            <span class="etiqueta-final">
+                CASO COMPLETADO
+            </span>
+
+            <h2>
+                ¡Excelente trabajo, ${nombreParticipante}!
+            </h2>
+
+            <p class="mensaje-final">
+                Has completado satisfactoriamente las seis decisiones
+                del caso de elaboración del Oficio.
+            </p>
+
+            <p class="mensaje-final-secundario">
+                Has demostrado conocimientos sobre la estructura,
+                contenido y presentación de un documento administrativo.
+            </p>
+
+            <div class="felicitacion-destacada">
+
+                <strong>
+                    🎉 ¡Felicitaciones!
+                </strong>
+
+                <span>
+                    Continúa desarrollando tus competencias administrativas.
+                </span>
+
+            </div>
+
+            <div class="acciones-finales">
+
+                <button
+                    class="boton-principal"
+                    onclick="mostrarDocumentos()">
+
+                    ← Volver al Módulo 1
+
+                </button>
+
+                <button
+                    class="boton-secundario"
+                    onclick="volverInicio()">
+
+                    Ir al inicio
+
+                </button>
+
+            </div>
+
+        </div>
     `;
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 
-// ==========================================
+// ============================================================
 // CASO 2: MEMORANDO
-// ==========================================
+// ============================================================
 
-// ==========================================
-// CASO 2: ELABORACIÓN DE MEMORANDO
-// ==========================================
+let preguntaMemorando = 1;
+
+
+// ============================================================
+// INICIAR CASO MEMORANDO
+// ============================================================
 
 function casoMemorando() {
 
-    puntaje = 0;
-    preguntaActual = 0;
+    preguntaMemorando = 1;
 
     document.getElementById("documentos").style.display = "none";
     document.getElementById("caso").style.display = "block";
 
-    document.getElementById("tituloCaso").textContent =
-        "Caso 2: Elaboración de Memorando";
+    document.getElementById("tituloCaso").innerHTML = `
+        📝 Caso 2: Comunicación de disposiciones administrativas
+    `;
 
     mostrarPreguntaMemorando();
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
 
-// ==========================================
+// ============================================================
 // PREGUNTAS DEL MEMORANDO
-// ==========================================
+// ============================================================
 
 function mostrarPreguntaMemorando() {
 
-    let contenido = document.getElementById("contenidoCaso");
+    const contenido = document.getElementById("contenidoCaso");
 
-    if (preguntaActual === 0) {
-
-        contenido.innerHTML = `
-
-            <h3>📋 Situación laboral</h3>
-
-            <p>
-                Usted trabaja como asistente administrativo.
-                El jefe del área necesita comunicar una instrucción
-                dirigida a todos los trabajadores de su oficina.
-            </p>
-
-            <h3>Decisión 1</h3>
-
-            <p>
-                ¿Qué documento sería el más adecuado para realizar
-                esta comunicación interna?
-            </p>
-
-            <button onclick="respuesta1Memorando(false)">
-                A. Oficio
-            </button>
-
-            <button onclick="respuesta1Memorando(true)">
-                B. Memorando
-            </button>
-
-            <button onclick="respuesta1Memorando(false)">
-                C. Carta comercial
-            </button>
-
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
-        `;
-
-    }
-
-    else if (preguntaActual === 1) {
+    if (preguntaMemorando === 1) {
 
         contenido.innerHTML = `
 
-            <h3>Decisión 2</h3>
+            ${actualizarProgreso(1, 3)}
 
-            <p>
-                El jefe le entrega la información que debe comunicar.
-                ¿Qué debe hacer antes de redactar el memorando?
-            </p>
+            <div class="pregunta-box">
 
-            <button onclick="respuesta2Memorando(false)">
-                A. Enviarlo inmediatamente sin revisar la información
-            </button>
+                <span class="etiqueta-caso">
+                    DECISIÓN 01
+                </span>
 
-            <button onclick="respuesta2Memorando(true)">
-                B. Revisar la información, destinatarios y finalidad de la comunicación
-            </button>
+                <h3>
+                    ¿Cuál es la finalidad principal del Memorando?
+                </h3>
 
-            <button onclick="respuesta2Memorando(false)">
-                C. Eliminar la información que considere innecesaria sin consultar
-            </button>
+                ${mostrarBotonesProfesionales(
+                    [
+                        "Comunicar asuntos internos dentro de una institución.",
+                        "Realizar una comunicación entre dos instituciones externas.",
+                        "Registrar una reunión.",
+                        "Presentar los resultados de una investigación."
+                    ],
+                    "respuesta1Memorando"
+                )}
 
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
+                <div id="retroalimentacion"></div>
+
+            </div>
         `;
-
     }
 
-    else if (preguntaActual === 2) {
+    else if (preguntaMemorando === 2) {
 
         contenido.innerHTML = `
 
-            <h3>Decisión 3</h3>
+            ${actualizarProgreso(2, 3)}
 
-            <p>
-                Antes de entregar el memorando, debe realizar
-                una revisión final.
-            </p>
+            <div class="pregunta-box">
 
-            <p>
-                ¿Qué debe verificar?
-            </p>
+                <span class="etiqueta-caso">
+                    DECISIÓN 02
+                </span>
 
-            <button onclick="respuesta3Memorando(false)">
-                A. Solo que tenga una firma
-            </button>
+                <h3>
+                    ¿A quién se dirige normalmente un Memorando?
+                </h3>
 
-            <button onclick="respuesta3Memorando(true)">
-                B. Destinatario, asunto, contenido, fecha y firma
-            </button>
+                ${mostrarBotonesProfesionales(
+                    [
+                        "A personal o áreas dentro de la misma institución.",
+                        "A cualquier ciudadano.",
+                        "A una institución extranjera.",
+                        "A medios de comunicación."
+                    ],
+                    "respuesta2Memorando"
+                )}
 
-            <button onclick="respuesta3Memorando(false)">
-                C. Únicamente el tamaño de la letra
-            </button>
+                <div id="retroalimentacion"></div>
 
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
+            </div>
         `;
-
     }
 
-    else {
+    else if (preguntaMemorando === 3) {
 
-        finalizarMemorando();
+        contenido.innerHTML = `
+
+            ${actualizarProgreso(3, 3)}
+
+            <div class="pregunta-box">
+
+                <span class="etiqueta-caso">
+                    DECISIÓN 03
+                </span>
+
+                <h3>
+                    ¿Qué característica debe tener el texto de un Memorando?
+                </h3>
+
+                ${mostrarBotonesProfesionales(
+                    [
+                        "Claro, breve y directamente relacionado con el asunto.",
+                        "Extenso y con información que no guarda relación.",
+                        "Redactado únicamente con palabras técnicas.",
+                        "Sin indicar claramente el motivo de la comunicación."
+                    ],
+                    "respuesta3Memorando"
+                )}
+
+                <div id="retroalimentacion"></div>
+
+            </div>
+        `;
     }
 }
 
 
-// ==========================================
-// RESPUESTA 1
-// ==========================================
+// ============================================================
+// RESPUESTAS MEMORANDO
+// ============================================================
 
-function respuesta1Memorando(correcta) {
+function respuesta1Memorando(opcion) {
 
-    if (correcta) {
+    if (opcion === 0) {
 
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. El memorando es utilizado para comunicaciones internas."
+        mostrarRetroalimentacion(
+            true,
+            "Correcto. El Memorando se utiliza principalmente para comunicaciones internas."
         );
+
+        document.getElementById("retroalimentacion").querySelector(".boton-continuar").onclick = function () {
+            preguntaMemorando++;
+            mostrarPreguntaMemorando();
+        };
 
     } else {
 
-        alert(
-            "❌ Incorrecto. En este caso se necesita una comunicación interna."
+        mostrarRetroalimentacion(
+            false,
+            "El Memorando se utiliza principalmente para comunicaciones internas dentro de una institución."
         );
     }
-
-    preguntaActual = 1;
-
-    mostrarPreguntaMemorando();
 }
 
 
-// ==========================================
-// RESPUESTA 2
-// ==========================================
+function respuesta2Memorando(opcion) {
 
-function respuesta2Memorando(correcta) {
+    if (opcion === 0) {
 
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. Antes de redactar debemos verificar la información y los destinatarios."
+        mostrarRetroalimentacion(
+            true,
+            "Correcto. El Memorando se dirige normalmente a trabajadores, responsables o áreas de la misma institución."
         );
+
+        document.getElementById("retroalimentacion").querySelector(".boton-continuar").onclick = function () {
+            preguntaMemorando++;
+            mostrarPreguntaMemorando();
+        };
 
     } else {
 
-        alert(
-            "❌ Incorrecto. Es necesario revisar la información antes de redactar."
+        mostrarRetroalimentacion(
+            false,
+            "Recuerda que el Memorando se utiliza principalmente para comunicaciones internas."
         );
     }
-
-    preguntaActual = 2;
-
-    mostrarPreguntaMemorando();
 }
 
 
-// ==========================================
-// RESPUESTA 3
-// ==========================================
+function respuesta3Memorando(opcion) {
 
-function respuesta3Memorando(correcta) {
+    if (opcion === 0) {
 
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. La revisión final permite detectar errores antes de entregar el documento."
+        mostrarRetroalimentacion(
+            true,
+            "Correcto. Un buen Memorando comunica el asunto de manera clara, breve y directa."
         );
+
+        setTimeout(() => {
+
+            mostrarFelicitacionMemorando();
+
+        }, 800);
 
     } else {
 
-        alert(
-            "❌ Incorrecto. La revisión debe considerar los elementos principales del memorando."
+        mostrarRetroalimentacion(
+            false,
+            "El texto de un Memorando debe ser claro, breve y directamente relacionado con el asunto."
         );
     }
-
-    preguntaActual = 3;
-
-    mostrarPreguntaMemorando();
 }
 
 
-// ==========================================
-// RESULTADO FINAL DEL MEMORANDO
-// ==========================================
+// ============================================================
+// FELICITACIÓN MEMORANDO
+// ============================================================
 
-function finalizarMemorando() {
+function mostrarFelicitacionMemorando() {
 
-    let mensaje = "";
-    let nivel = "";
+    const contenido = document.getElementById("contenidoCaso");
 
-    if (puntaje === 30) {
+    contenido.innerHTML = `
 
-        nivel = "Excelente desempeño";
+        <div class="pantalla-felicitacion">
 
-        mensaje = `
-            <p>
-                Ha completado correctamente todas las decisiones
-                relacionadas con la elaboración de un memorando.
+            <div class="estrellas">
+
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+                <span>★</span>
+
+            </div>
+
+            <div class="icono-felicitacion">
+                ✓
+            </div>
+
+            <span class="etiqueta-final">
+                CASO COMPLETADO
+            </span>
+
+            <h2>
+                ¡Muy bien, ${nombreParticipante}!
+            </h2>
+
+            <p class="mensaje-final">
+                Has completado satisfactoriamente el caso
+                de elaboración del Memorando.
             </p>
-        `;
 
-    } else if (puntaje >= 20) {
+            <div class="felicitacion-destacada">
 
-        nivel = "Buen desempeño";
+                <strong>
+                    🎉 ¡Felicitaciones!
+                </strong>
 
-        mensaje = `
-            <p>
-                Ha demostrado un buen manejo del procedimiento,
-                pero todavía puede mejorar algunos aspectos.
-            </p>
-        `;
+                <span>
+                    Sigue avanzando en tu entrenamiento administrativo.
+                </span>
 
-    } else {
+            </div>
 
-        nivel = "Necesita reforzar sus conocimientos";
+            <div class="acciones-finales">
 
-        mensaje = `
-            <p>
-                Se recomienda revisar nuevamente el procedimiento
-                de elaboración y revisión de memorandos.
-            </p>
-        `;
-    }
+                <button
+                    class="boton-principal"
+                    onclick="mostrarDocumentos()">
 
-    document.getElementById("contenidoCaso").innerHTML = `
+                    ← Volver al Módulo 1
 
-        <h2>🏁 Simulación finalizada</h2>
+                </button>
 
-        <hr>
+                <button
+                    class="boton-secundario"
+                    onclick="volverInicio()">
 
-        <h3>👤 Participante</h3>
+                    Ir al inicio
 
-        <p>
-            <strong>Nombre:</strong> ${nombreParticipante}
-        </p>
+                </button>
 
-        <p>
-            <strong>Institución / Empresa:</strong> ${institucionParticipante}
-        </p>
+            </div>
 
-        <hr>
-
-        <h3>📋 Caso: Elaboración de Memorando</h3>
-
-        <h3>📊 Resultado</h3>
-
-        <p>
-            <strong>Nivel de desempeño:</strong>
-            ${nivel}
-        </p>
-
-        ${mensaje}
-
-        <h2>
-            ⭐ Puntaje obtenido: ${puntaje} / 30
-        </h2>
-
-        <hr>
-
-        <button onclick="casoMemorando()">
-            🔄 Intentar nuevamente
-        </button>
-
-        <button onclick="mostrarDocumentos()">
-            📄 Volver al módulo Documentos
-        </button>
-
+        </div>
     `;
 }
 
 
-// ==========================================
-// GESTIÓN DOCUMENTAL
-// ==========================================
-
-// ==========================================
-// CASO 1: RECEPCIÓN Y DERIVACIÓN
-// ==========================================
+// ============================================================
+// FUNCIONES DE GESTIÓN DOCUMENTAL
+// SE CONSERVAN PARA DESARROLLO FUTURO
+// ============================================================
 
 function casoRecepcion() {
 
-    puntaje = 0;
-    preguntaActual = 0;
-
-    document.getElementById("gestion").style.display = "none";
-    document.getElementById("caso").style.display = "block";
-
-    document.getElementById("tituloCaso").textContent =
-        "Caso 1: Recepción y Derivación de Documento";
-
-    mostrarPreguntaRecepcion();
+    alert(
+        "El caso de recepción documental estará disponible próximamente."
+    );
 }
 
-
-function mostrarPreguntaRecepcion() {
-
-    let contenido = document.getElementById("contenidoCaso");
-
-    if (preguntaActual === 0) {
-
-        contenido.innerHTML = `
-
-            <h3>📥 Situación laboral</h3>
-
-            <p>
-                Usted trabaja en el área de recepción documental.
-                Una persona entrega un documento dirigido a la institución.
-            </p>
-
-            <h3>Decisión 1</h3>
-
-            <p>
-                ¿Qué debe hacer primero?
-            </p>
-
-            <button onclick="respuesta1Recepcion(false)">
-                A. Guardar inmediatamente el documento
-            </button>
-
-            <button onclick="respuesta1Recepcion(true)">
-                B. Verificar destinatario, fecha, firma y anexos
-            </button>
-
-            <button onclick="respuesta1Recepcion(false)">
-                C. Enviarlo directamente a cualquier área
-            </button>
-
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
-        `;
-
-    }
-
-    else if (preguntaActual === 1) {
-
-        contenido.innerHTML = `
-
-            <h3>Decisión 2</h3>
-
-            <p>
-                El documento cumple con los requisitos básicos.
-            </p>
-
-            <p>
-                ¿Qué procedimiento corresponde realizar ahora?
-            </p>
-
-            <button onclick="respuesta2Recepcion(false)">
-                A. Dejarlo sobre el escritorio
-            </button>
-
-            <button onclick="respuesta2Recepcion(true)">
-                B. Registrar el ingreso del documento
-            </button>
-
-            <button onclick="respuesta2Recepcion(false)">
-                C. Entregarlo sin realizar ningún registro
-            </button>
-
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
-        `;
-
-    }
-
-    else if (preguntaActual === 2) {
-
-        contenido.innerHTML = `
-
-            <h3>Decisión 3</h3>
-
-            <p>
-                El documento ya ha sido registrado.
-                Ahora debe continuar su trámite.
-            </p>
-
-            <p>
-                ¿Qué debe hacer?
-            </p>
-
-            <button onclick="respuesta3Recepcion(false)">
-                A. Archivarlo sin enviarlo
-            </button>
-
-            <button onclick="respuesta3Recepcion(true)">
-                B. Identificar el área responsable y derivar el documento
-            </button>
-
-            <button onclick="respuesta3Recepcion(false)">
-                C. Devolverlo al remitente
-            </button>
-
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
-        `;
-
-    }
-
-    else {
-
-        finalizarRecepcion();
-    }
-}
-
-
-function respuesta1Recepcion(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. Antes de registrar un documento se debe verificar que contenga la información necesaria."
-        );
-
-    } else {
-
-        alert(
-            "❌ Incorrecto. Primero debe verificarse el documento recibido."
-        );
-    }
-
-    preguntaActual = 1;
-
-    mostrarPreguntaRecepcion();
-}
-
-
-function respuesta2Recepcion(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. El documento debe registrarse para dejar constancia de su ingreso."
-        );
-
-    } else {
-
-        alert(
-            "❌ Incorrecto. Todo documento recibido debe ser registrado antes de continuar su trámite."
-        );
-    }
-
-    preguntaActual = 2;
-
-    mostrarPreguntaRecepcion();
-}
-
-
-function respuesta3Recepcion(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. El documento debe ser derivado al área responsable de atenderlo."
-        );
-
-    } else {
-
-        alert(
-            "❌ Incorrecto. Debe identificarse el área competente y derivar correctamente el documento."
-        );
-    }
-
-    preguntaActual = 3;
-
-    mostrarPreguntaRecepcion();
-}
-
-
-function finalizarRecepcion() {
-
-    let mensaje = "";
-    let nivel = "";
-
-    if (puntaje === 30) {
-
-        nivel = "Excelente desempeño";
-
-        mensaje = `
-            <p>
-                Ha realizado correctamente el proceso de recepción,
-                registro y derivación documental.
-            </p>
-        `;
-
-    } else if (puntaje >= 20) {
-
-        nivel = "Buen desempeño";
-
-        mensaje = `
-            <p>
-                Ha demostrado un buen manejo del procedimiento,
-                pero debe reforzar algunos pasos de la gestión documental.
-            </p>
-        `;
-
-    } else {
-
-        nivel = "Necesita reforzar sus conocimientos";
-
-        mensaje = `
-            <p>
-                Se recomienda revisar nuevamente el procedimiento
-                de recepción, registro y derivación de documentos.
-            </p>
-        `;
-    }
-
-    document.getElementById("contenidoCaso").innerHTML = `
-
-        <h2>🏁 Simulación finalizada</h2>
-
-        <hr>
-
-        <h3>👤 Participante</h3>
-
-        <p>
-            <strong>Nombre:</strong> ${nombreParticipante}
-        </p>
-
-        <p>
-            <strong>Institución / Empresa:</strong> ${institucionParticipante}
-        </p>
-
-        <hr>
-
-        <h3>📥 Caso: Recepción y Derivación de Documento</h3>
-
-        <h3>📊 Resultado</h3>
-
-        <p>
-            <strong>Nivel de desempeño:</strong>
-            ${nivel}
-        </p>
-
-        ${mensaje}
-
-        <h2>
-            ⭐ Puntaje obtenido: ${puntaje} / 30
-        </h2>
-
-        <hr>
-
-        <button onclick="casoRecepcion()">
-            🔄 Intentar nuevamente
-        </button>
-
-        <button onclick="mostrarGestionDocumental()">
-            🗂️ Volver a Gestión Documental
-        </button>
-
-    `;
-}
-
-
-// ==========================================
-// CASO 2: CLASIFICACIÓN Y ARCHIVO
-// ==========================================
 
 function casoArchivo() {
 
-    puntaje = 0;
-    preguntaActual = 0;
-
-    document.getElementById("gestion").style.display = "none";
-    document.getElementById("caso").style.display = "block";
-
-    document.getElementById("tituloCaso").textContent =
-        "Caso 2: Clasificación y Archivo de Documentos";
-
-    mostrarPreguntaArchivo();
+    alert(
+        "El caso de archivo documental estará disponible próximamente."
+    );
 }
-
-
-// ==========================================
-// PREGUNTAS DEL CASO
-// ==========================================
-
-function mostrarPreguntaArchivo() {
-
-    let contenido = document.getElementById("contenidoCaso");
-
-    if (preguntaActual === 0) {
-
-        contenido.innerHTML = `
-
-            <h3>📂 Situación laboral</h3>
-
-            <p>
-                Usted trabaja como asistente administrativo y recibe
-                varios documentos que deben ser organizados y archivados.
-            </p>
-
-            <p>
-                Los documentos corresponden a diferentes áreas y
-                tipos de trámite.
-            </p>
-
-            <h3>Decisión 1</h3>
-
-            <p>
-                ¿Qué debe hacer primero antes de archivar los documentos?
-            </p>
-
-            <button onclick="respuesta1Archivo(false)">
-                A. Guardar todos los documentos juntos
-            </button>
-
-            <button onclick="respuesta1Archivo(true)">
-                B. Identificar y clasificar los documentos según su tipo y procedencia
-            </button>
-
-            <button onclick="respuesta1Archivo(false)">
-                C. Eliminar los documentos que parezcan antiguos
-            </button>
-
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
-        `;
-
-    }
-
-    else if (preguntaActual === 1) {
-
-        contenido.innerHTML = `
-
-            <h3>Decisión 2</h3>
-
-            <p>
-                Ya identificó y clasificó los documentos.
-            </p>
-
-            <p>
-                Ahora debe determinar dónde debe colocar cada documento.
-            </p>
-
-            <p>
-                ¿Cuál es la decisión correcta?
-            </p>
-
-            <button onclick="respuesta2Archivo(false)">
-                A. Colocarlos en cualquier archivador disponible
-            </button>
-
-            <button onclick="respuesta2Archivo(true)">
-                B. Ubicarlos en el archivo o serie documental que corresponda
-            </button>
-
-            <button onclick="respuesta2Archivo(false)">
-                C. Guardarlos solamente según el tamaño del documento
-            </button>
-
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
-        `;
-
-    }
-
-    else if (preguntaActual === 2) {
-
-        contenido.innerHTML = `
-
-            <h3>Decisión 3</h3>
-
-            <p>
-                Los documentos ya fueron colocados en el archivo.
-            </p>
-
-            <p>
-                Antes de finalizar el procedimiento, debe realizar
-                una última verificación.
-            </p>
-
-            <p>
-                ¿Qué debe comprobar?
-            </p>
-
-            <button onclick="respuesta3Archivo(false)">
-                A. Que todos los documentos estén mezclados
-            </button>
-
-            <button onclick="respuesta3Archivo(true)">
-                B. Que los documentos estén correctamente identificados, ordenados y ubicados
-            </button>
-
-            <button onclick="respuesta3Archivo(false)">
-                C. Que solamente los documentos más recientes estén archivados
-            </button>
-
-            <p>
-                <strong>⭐ Puntaje:</strong> ${puntaje}
-            </p>
-        `;
-
-    }
-
-    else {
-
-        finalizarArchivo();
-    }
-}
-
-
-// ==========================================
-// RESPUESTA 1
-// ==========================================
-
-function respuesta1Archivo(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. Antes de archivar se deben identificar y clasificar los documentos."
-        );
-
-    } else {
-
-        alert(
-            "❌ Incorrecto. No se deben archivar documentos sin conocer su tipo y procedencia."
-        );
-    }
-
-    preguntaActual = 1;
-
-    mostrarPreguntaArchivo();
-}
-
-
-// ==========================================
-// RESPUESTA 2
-// ==========================================
-
-function respuesta2Archivo(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. Cada documento debe ubicarse en el archivo o serie documental correspondiente."
-        );
-
-    } else {
-
-        alert(
-            "❌ Incorrecto. Los documentos deben ubicarse siguiendo un criterio de clasificación."
-        );
-    }
-
-    preguntaActual = 2;
-
-    mostrarPreguntaArchivo();
-}
-
-
-// ==========================================
-// RESPUESTA 3
-// ==========================================
-
-function respuesta3Archivo(correcta) {
-
-    if (correcta) {
-
-        puntaje += 10;
-
-        alert(
-            "✅ Correcto. La verificación final permite comprobar que los documentos estén correctamente organizados."
-        );
-
-    } else {
-
-        alert(
-            "❌ Incorrecto. Antes de finalizar debe verificarse la correcta organización del archivo."
-        );
-    }
-
-    preguntaActual = 3;
-
-    mostrarPreguntaArchivo();
-}
-
-
-// ==========================================
-// RESULTADO FINAL
-// ==========================================
-
-function finalizarArchivo() { let mensaje = ""; let nivel = ""; if (puntaje === 30) { nivel = "Excelente desempeño"; mensaje = ` <p> Ha realizado correctamente el proceso de clasificación y archivo de documentos. </p> `; } else if (puntaje >= 20) { nivel = "Buen desempeño"; mensaje = ` <p> Ha demostrado un buen manejo del proceso, pero debe reforzar algunos criterios de archivo. </p> `; } else { nivel = "Necesita reforzar sus conocimientos"; mensaje = ` <p> Se recomienda revisar nuevamente los criterios de clasificación, organización y archivo documental. </p> `; } document.getElementById("contenidoCaso").innerHTML = ` <h2>🏁 Simulación finalizada</h2> <hr> <h3>👤 Datos del participante</h3> <p> <strong>Nombre:</strong> ${nombreParticipante} </p> <p> <strong>Institución / Empresa:</strong> ${institucionParticipante} </p> <hr> <h3>📂 Caso realizado</h3> <p> Clasificación y Archivo de Documentos </p> <h3>📊 Nivel de desempeño</h3> <p> <strong>${nivel}</strong> </p> ${mensaje} <h2> ⭐ Puntaje obtenido: ${puntaje} / 30 </h2> <hr> <button onclick="casoArchivo()"> 🔄 Intentar nuevamente </button> <button onclick="mostrarGestionDocumental()"> 🗂️ Volver a Gestión Documental </button> `; }
