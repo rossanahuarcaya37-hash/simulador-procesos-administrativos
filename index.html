@@ -2,213 +2,503 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Simulador Digital de Procesos Administrativos</title>
+    <title>
+        Simulador Digital de Procesos para Trabajadores Administrativos
+    </title>
 
     <link rel="stylesheet" href="estilos.css">
-
 </head>
+
 
 <body>
 
     <!-- ==========================================
-         ENCABEZADO
+         ENCABEZADO INSTITUCIONAL
          ========================================== -->
 
-    <header>
+    <header class="encabezado">
 
-        <h1>
-            Simulador Digital de Procesos Administrativos
-        </h1>
+        <div class="contenedor-logo">
 
-        <p>
-            Fortalecimiento del desempeño laboral de profesionales
-            de Asistencia Administrativa
-        </p>
+            <img
+                src="logo-cbp.jpg"
+                alt="Logo del IESTP Catalina Buendía de Pecho"
+                class="logo-institucional"
+            >
+
+        </div>
+
+
+        <div class="informacion-institucional">
+
+            <p class="nombre-instituto">
+                INSTITUTO DE EDUCACIÓN SUPERIOR TECNOLÓGICO PÚBLICO
+            </p>
+
+            <h2>
+                "CATALINA BUENDÍA DE PECHO"
+            </h2>
+
+            <p class="ubicacion">
+                Ica – Perú
+            </p>
+
+        </div>
+
+
+        <div class="titulo-simulador">
+
+            <h1>
+                SIMULADOR DIGITAL DE PROCESOS - SIDIPRO
+            </h1>
+
+            <h2>
+                PARA TRABAJADORES ADMINISTRATIVOS
+            </h2>
+
+            <p>
+                Plataforma de práctica y fortalecimiento
+                de competencias laborales
+            </p>
+
+            <p class="creditos-proyecto">
+                RYHC - LVCA
+            </p>
+
+        </div>
 
     </header>
 
+
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+         ========================================== -->
 
     <main>
 
 
         <!-- ==========================================
-             PANTALLA INICIAL
+             PANTALLA DE INICIO
              ========================================== -->
 
-        <section id="inicio">
-
-            <h2>
-                🎓 Bienvenido al Simulador
-            </h2>
-
-            <p>
-                Este simulador permite desarrollar y evaluar
-                competencias relacionadas con los procesos
-                administrativos.
-            </p>
+        <section id="inicio" class="pantalla-inicio">
 
 
-            <h3>
-                👤 Datos del participante
-            </h3>
+            <div class="bienvenida">
+
+                <div class="icono-bienvenida">
+                    💼
+                </div>
 
 
-            <label for="nombreParticipante">
-                Nombre completo:
-            </label>
+                <div>
 
-            <input
-                type="text"
-                id="nombreParticipante"
-                placeholder="Ingrese su nombre completo"
-            >
+                    <h2>
+                        Bienvenido(a) al Simulador Digital
+                    </h2>
 
+                    <p>
+                        Desarrolle y fortalezca sus competencias mediante
+                        situaciones prácticas relacionadas con los principales
+                        procesos administrativos.
+                    </p>
 
-            <label for="institucion">
-                Institución o empresa:
-            </label>
+                </div>
 
-            <input
-                type="text"
-                id="institucion"
-                placeholder="Ingrese la institución o empresa"
-            >
+            </div>
 
 
-            
-            <h3>
-                🎯 Objetivo
-            </h3>
 
-            <p>
-                Fortalecer el desempeño laboral mediante la práctica
-                simulada de procesos administrativos.
-            </p>
+            <!-- OBJETIVO -->
+
+            <div class="tarjeta-objetivo">
+
+                <h3>
+                    🎯 Objetivo del simulador
+                </h3>
+
+                <p>
+                    Fortalecer el desempeño laboral de los trabajadores
+                    administrativos mediante la práctica simulada de procesos
+                    y situaciones propias del entorno laboral.
+                </p>
+
+            </div>
 
 
-            <button onclick="iniciarSimulacion()">
 
-                🚀 Iniciar simulación
+            <!-- DATOS DEL PARTICIPANTE -->
 
-            </button>
+            <div class="datos-participante">
+
+                <h3>
+                    👤 Datos del participante
+                </h3>
+
+
+                <label for="nombreParticipante">
+                    Nombre completo:
+                </label>
+
+                <input
+                    type="text"
+                    id="nombreParticipante"
+                    placeholder="Ingrese su nombre completo"
+                >
+
+
+                <label for="institucion">
+                    Institución o empresa:
+                </label>
+
+                <input
+                    type="text"
+                    id="institucion"
+                    placeholder="Ingrese el nombre de su institución o empresa"
+                >
+
+
+                <button
+                    class="boton-principal"
+                    onclick="iniciarSimulacion()"
+                >
+                    🚀 INICIAR SIMULACIÓN
+                </button>
+
+            </div>
 
         </section>
 
 
 
         <!-- ==========================================
-             MÓDULO DOCUMENTOS
+             MÓDULO 1: DOCUMENTOS
              ========================================== -->
 
         <section id="documentos" style="display: none;">
 
-            <h2>
-                📄 Módulo Documentos
-            </h2>
 
-            <p>
-                Seleccione el caso práctico que desea desarrollar:
-            </p>
+            <div class="encabezado-modulo">
 
-
-            <button onclick="casoOficio()">
-
-                Caso 1: Solicitud de información institucional
-
-            </button>
+                <div class="icono-modulo">
+                    📄
+                </div>
 
 
-            <button onclick="casoMemorando()">
+                <div>
 
-                Caso 2: Elaboración de Memorando
+                    <h2>
+                        Módulo 1: Documentos Administrativos
+                    </h2>
 
-            </button>
+                    <p>
+                        Practique la elaboración y revisión de documentos
+                        utilizados en el entorno laboral.
+                    </p>
+
+                </div>
+
+            </div>
 
 
-            <button onclick="mostrarGestionDocumental()">
 
-                🗂️ Ir a Gestión Documental
-
-            </button>
+            <div class="contenedor-casos">
 
 
-            <button onclick="volverInicio()">
+                <!-- CASO 1 -->
 
-                ⬅ Volver al inicio
+                <div class="tarjeta-caso">
 
-            </button>
+                    <div class="numero-caso">
+                        01
+                    </div>
+
+                    <h3>
+                        📄 Solicitud de información institucional
+                    </h3>
+
+                    <p>
+                        Analice una situación laboral y determine cómo
+                        elaborar correctamente una comunicación formal
+                        dirigida a otra institución.
+                    </p>
+
+                    <button onclick="casoOficio()">
+                        ▶ Iniciar caso práctico
+                    </button>
+
+                </div>
+
+
+
+                <!-- CASO 2 -->
+
+                <div class="tarjeta-caso">
+
+                    <div class="numero-caso">
+                        02
+                    </div>
+
+                    <h3>
+                        📝 Elaboración de Memorando
+                    </h3>
+
+                    <p>
+                        Tome decisiones relacionadas con una comunicación
+                        interna dentro de una institución.
+                    </p>
+
+                    <button onclick="casoMemorando()">
+                        ▶ Iniciar caso práctico
+                    </button>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- NAVEGACIÓN -->
+
+            <div class="botones-navegacion">
+
+                <button
+                    class="boton-volver"
+                    onclick="volverInicio()"
+                >
+                    ⬅ Volver al inicio
+                </button>
+
+            </div>
+
 
         </section>
 
 
 
         <!-- ==========================================
-             MÓDULO GESTIÓN DOCUMENTAL
-             ========================================== -->
-
-        <section id="gestion" style="display: none;">
-
-            <h2>
-                🗂️ Módulo Gestión Documental
-            </h2>
-
-            <p>
-                Seleccione el caso práctico que desea desarrollar:
-            </p>
-
-
-            <button onclick="casoRecepcion()">
-
-                Caso 1: Recepción y Derivación de Documento
-
-            </button>
-
-
-            <button onclick="casoArchivo()">
-
-                Caso 2: Clasificación y Archivo de Documentos
-
-            </button>
-
-
-            <button onclick="mostrarDocumentos()">
-
-                📄 Volver a Documentos
-
-            </button>
-
-
-            <button onclick="volverInicio()">
-
-                ⬅ Volver al inicio
-
-            </button>
-
-        </section>
-
-
-
-        <!-- ==========================================
-             ÁREA DE CASOS
+             ÁREA DE DESARROLLO DE CASOS
              ========================================== -->
 
         <section id="caso" style="display: none;">
 
-            <h2 id="tituloCaso"></h2>
 
-            <div id="contenidoCaso"></div>
+            <div class="barra-superior-caso">
+
+                <div>
+
+                    <span class="etiqueta-simulacion">
+                        SIMULACIÓN EN DESARROLLO
+                    </span>
+
+                    <h2 id="tituloCaso"></h2>
+
+                </div>
 
 
-            <button onclick="volverInicio()">
+                <div class="indicador-participante">
+                    👤 Participante
+                </div>
 
-                ⬅ Volver al inicio
+            </div>
 
-            </button>
+
+
+            <!-- CONTENIDO DINÁMICO DEL CASO -->
+
+            <div
+                id="contenidoCaso"
+                class="contenido-caso"
+            >
+            </div>
+
+
+
+            <div class="zona-volver">
+
+                <button
+                    class="boton-volver"
+                    onclick="volverInicio()"
+                >
+                    ⬅ Finalizar y volver al inicio
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==========================================
+             GESTIÓN DOCUMENTAL OCULTA TEMPORALMENTE
+
+             Esta sección permanece oculta para evitar
+             errores con el script.js actual.
+             ========================================== -->
+
+        <section id="gestion" style="display: none;">
+
+            <!--
+                Módulo temporalmente deshabilitado.
+                Será desarrollado posteriormente.
+            -->
+
+        </section>
+
+
+
+        <!-- ==========================================
+             PRÓXIMOS MÓDULOS
+             ========================================== -->
+
+        <section id="proximos-modulos" class="proximos-modulos">
+
+
+            <h2>
+                🚀 Próximamente en el Simulador
+            </h2>
+
+            <p>
+                Nuevos módulos para fortalecer las competencias
+                de los trabajadores administrativos.
+            </p>
+
+
+
+            <div class="grid-modulos">
+
+
+                <!-- GESTIÓN DOCUMENTAL -->
+
+                <div class="modulo-proximo">
+
+                    <div class="icono-proximo">
+                        🗂️
+                    </div>
+
+                    <h3>
+                        Gestión Documental
+                    </h3>
+
+                    <p>
+                        Recepción, registro, derivación,
+                        clasificación y archivo de documentos.
+                    </p>
+
+                    <span>
+                        PRÓXIMAMENTE
+                    </span>
+
+                </div>
+
+
+
+                <!-- GESTIÓN DE ALMACÉN -->
+
+                <div class="modulo-proximo">
+
+                    <div class="icono-proximo">
+                        📦
+                    </div>
+
+                    <h3>
+                        Gestión de Almacén
+                    </h3>
+
+                    <p>
+                        Organización, control y manejo
+                        de recursos materiales.
+                    </p>
+
+                    <span>
+                        PRÓXIMAMENTE
+                    </span>
+
+                </div>
+
+
+
+                <!-- HERRAMIENTAS DIGITALES -->
+
+                <div class="modulo-proximo">
+
+                    <div class="icono-proximo">
+                        💻
+                    </div>
+
+                    <h3>
+                        Herramientas Digitales
+                    </h3>
+
+                    <p>
+                        Uso de herramientas tecnológicas
+                        aplicadas al trabajo administrativo.
+                    </p>
+
+                    <span>
+                        PRÓXIMAMENTE
+                    </span>
+
+                </div>
+
+
+
+                <!-- ATENCIÓN AL USUARIO -->
+
+                <div class="modulo-proximo">
+
+                    <div class="icono-proximo">
+                        👥
+                    </div>
+
+                    <h3>
+                        Atención al Usuario
+                    </h3>
+
+                    <p>
+                        Situaciones prácticas de atención,
+                        comunicación y orientación.
+                    </p>
+
+                    <span>
+                        PRÓXIMAMENTE
+                    </span>
+
+                </div>
+
+
+
+                <!-- EVALUACIÓN FINAL -->
+
+                <div class="modulo-proximo">
+
+                    <div class="icono-proximo">
+                        📊
+                    </div>
+
+                    <h3>
+                        Evaluación Final
+                    </h3>
+
+                    <p>
+                        Evaluación integral de las competencias
+                        desarrolladas en el simulador.
+                    </p>
+
+                    <span>
+                        PRÓXIMAMENTE
+                    </span>
+
+                </div>
+
+
+            </div>
 
         </section>
 
@@ -216,7 +506,35 @@
     </main>
 
 
+
+    <!-- ==========================================
+         PIE DE PÁGINA
+         ========================================== -->
+
+    <footer>
+
+        <div>
+            <strong>
+                IESTP "Catalina Buendía de Pecho"
+            </strong>
+        </div>
+
+        <p>
+            Simulador Digital de Procesos para Trabajadores Administrativos
+        </p>
+
+        <p class="texto-footer">
+            Ica – Perú | 2026
+        </p>
+
+    </footer>
+
+
+
+    <!-- JAVASCRIPT -->
+
     <script src="script.js"></script>
+
 
 </body>
 
